@@ -1,0 +1,7 @@
+location /block {
+    if ($geoip_country_code ~ "US") {
+        return 200;
+    }
+
+    return 403;
+}

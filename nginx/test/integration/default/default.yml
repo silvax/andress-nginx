@@ -1,0 +1,20 @@
+---
+
+- hosts: all
+
+  pre_tasks:
+    - name: do not requires a TTY when using sudo
+      copy:
+        content="Defaults !requiretty\n"
+        dest="/etc/sudoers.d/cloud-init-requiretty"
+        mode=0400
+        validate="visudo -cf %s"
+
+    - name: remove SSH users from all groups
+      user:
+        name="{{ ansible_env.SUDO_USER }}"
+        groups=""
+
+  roles:
+    - role: nginx
+
